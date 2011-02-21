@@ -1,0 +1,17 @@
+The Gotan Project
+-----------------
+State : Proof of concept
+
+File :
+Gotan Device
+------------
+Desc : A Control System based only on HTTP
+In come
+ 
+Binding Tango
+-------------
+- DeviceServer.groovy = Groovy Server for Tango Device Server (tango-controls.org)
+- DeviceServerProxy = A groovy client for Tango
+- RestTangoServer = An HTTP REST Server for Tango 
+- RestTangoClient = A groovy client for REST Tango Server
+
