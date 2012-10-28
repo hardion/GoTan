@@ -10,28 +10,22 @@ import groovy.json.JsonBuilder
  */
 class GotanAttribute implements GAttribute{
   
-  def value
+    def value
   
-  String unit = "NoUnit"
+    String unit = "NoUnit"
     
-  Map<String, String> gproperties = [:]
+    Map<String, String> gproperties = [:]
   
-  def propertyMissing(String name) {
+    def propertyMissing(String name) {
         gproperties[name] 
-  }
+    }
 
-        def toJson(){
-//        def builder = new JsonBuilder()
-//        builder.object{
+    def toJson(){
         new JsonBuilder(
             "value": value,
             "unit": unit,
             "properties": gproperties,
         ).toString()
-//        }
-//        builder.toString()
-    }
-
-      
+    }      
 }
 

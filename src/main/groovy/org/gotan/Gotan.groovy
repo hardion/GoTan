@@ -139,7 +139,7 @@ class Thermometer1 extends GotanObject{
         
         attributes.temperature.value = 21.1
         attributes.temperature.unit = "degres"
-        attributes.temperature.gproperties = [minAlarm:19, maxAlarm:23]
+        attributes.temperature.gproperties = [minAlarm:"19", maxAlarm:"23"]
         
         gproperties["defaultMin"]="-275"
         
@@ -149,7 +149,7 @@ class Thermometer1 extends GotanObject{
         this.min.value = Double.MAX_VALUE
         this.min.properties.unit = "degres"
         
-        commands["reset"] = new GotanCommand(this.$reset)
+        commands["reset"] = new GotanCommand({this.reset})
         //        commands["reset"].command = 
         
     }

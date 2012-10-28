@@ -38,21 +38,31 @@ class GotanApplication extends Application{
         router.attach("/servers", GotanServersResource.class);
         router.attach("/objects", GotanObjectsResource.class,);
         
-        route = router.attach("/objects/{object}/properties", GotanPropertiesResource.class)
+
+        route = router.attach("/objects/{object}/attributes/{attribute}/properties/{property}", GotanAttributePropertyResource.class)
+        route.template.variables["object"] = new Variable(Variable.TYPE_URI_PATH)
+
+        route = router.attach("/objects/{object}/attributes/{attribute}/properties", GotanAttributePropertiesResource.class)
+        route.template.variables["object"] = new Variable(Variable.TYPE_URI_PATH)
+
+        route = router.attach("/objects/{object}/attributes/{attribute}", GotanAttributeResource.class)
+        route.template.variables["object"] = new Variable(Variable.TYPE_URI_PATH)
+
+        route = router.attach("/objects/{object}/attributes", GotanAttributesResource.class)
+        route.template.variables["object"] = new Variable(Variable.TYPE_URI_PATH)
+
+        route = router.attach("/objects/{object}/commands/{command}", GotanCommandResource.class)
+        route.template.variables["object"] = new Variable(Variable.TYPE_URI_PATH)
+
+        route = router.attach("/objects/{object}/commands", GotanCommandsResource.class)
         route.template.variables["object"] = new Variable(Variable.TYPE_URI_PATH)
 
         route = router.attach("/objects/{object}/properties/{property}", GotanPropertyResource.class)
         route.template.variables["object"] = new Variable(Variable.TYPE_URI_PATH)
 
-        route = router.attach("/objects/{object}/attributes", GotanAttributesResource.class)
+        route = router.attach("/objects/{object}/properties", GotanPropertiesResource.class)
         route.template.variables["object"] = new Variable(Variable.TYPE_URI_PATH)
-        
-        route = router.attach("/objects/{object}/attributes/{attribute}", GotanAttributeResource.class)
-        route.template.variables["object"] = new Variable(Variable.TYPE_URI_PATH)
-//        router.attach("/objects/{object}/attributes/{attribute}/properties", GotanAttributePropertiesResource.class)
-//        router.attach("/objects/{object}/attributes/{attribute}/properties/{property}", GotanAttributePropertyResource.class)
-//        router.attach("/objects/{object}/commands", GotanCommandsResource.class)
-//        router.attach("/objects/{object}/commands/{command}", GotanCommandResource.class)
+
         route = router.attach("/objects/{object}", GotanObjectResource.class);
         route.template.variables["object"] = new Variable(Variable.TYPE_URI_PATH)
         

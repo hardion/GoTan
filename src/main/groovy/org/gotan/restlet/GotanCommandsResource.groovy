@@ -11,8 +11,7 @@ import org.restlet.ext.json.JsonRepresentation
 
 import groovy.util.logging.Slf4j
 import org.slf4j.*
-
-import org.json.JSONObject
+import org.json.JSONArray
 
 /**
  * The internet of Things
@@ -20,7 +19,7 @@ import org.json.JSONObject
  * @author hardion
  */
 @Slf4j
-class GotanPropertiesResource extends ServerResource{
+class GotanCommandsResource extends ServerResource{
 
     /** The underlying Item object. */  
     def object
@@ -34,14 +33,13 @@ class GotanPropertiesResource extends ServerResource{
         // Get the item directly from the "persistence layer".  
         def gotan = this.context.attributes["gotan"]
         object = gotan."$objectName"
-        
   
         setExisting( this.object!=null );  
     }  
     
     @Get
     public JsonRepresentation toJSON() {
-        return new JsonRepresentation( new JSONObject( object.gproperties ) );
+        return new JsonRepresentation( new JSONArray( object.commands.keySet() ) );
     }
 }
 

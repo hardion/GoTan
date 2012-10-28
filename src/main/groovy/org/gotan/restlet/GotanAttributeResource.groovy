@@ -45,8 +45,8 @@ class GotanAttributeResource extends ServerResource{
     @Get
     public JsonRepresentation toJSON() {
         
-        def attributeValue = object."$attributeName" //?????
-        def attribute = this.object.attributes[attributeName]
+        def attribute = this.object."$attributeName"
+        // Doesn't work with object.attributes."$attributeName" if the getter is overriden 
         log.debug("object.attribute = ${attribute}")         
         def json = attribute.toJson()
         log.debug("object.attribute = ${json}") 

@@ -20,28 +20,30 @@ import org.json.JSONObject
  * @author hardion
  */
 @Slf4j
-class GotanPropertiesResource extends ServerResource{
+class GotanAttributePropertiesResource extends ServerResource{
 
     /** The underlying Item object. */  
     def object
+    def attributeName
     
     @Override  
     protected void doInit() throws ResourceException {  
         // Get the "itemName" attribute value taken from the URI template  
         // /items/{itemName}.  
         def objectName = request.attributes["object"]  
+        attributeName = request.attributes["attribute"]  
   
         // Get the item directly from the "persistence layer".  
         def gotan = this.context.attributes["gotan"]
         object = gotan."$objectName"
         
   
-        setExisting( this.object!=null );  
+        setExisting( this.object!=null && this.object.attributes[attributeName] );  
     }  
     
     @Get
     public JsonRepresentation toJSON() {
-        return new JsonRepresentation( new JSONObject( object.gproperties ) );
+        return new JsonRepresentation( new JSONObject( this.object.attributes[attributeName].gproperties ) );
     }
 }
 
