@@ -1,0 +1,39 @@
+apply plugin: 'java';
+apply plugin: 'groovy';
+
+sourceCompatibility = '1.6';
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8';
+
+String mainClass = 'org.gotan.Gotan';
+
+task (run, dependsOn: classes, type: JavaExec) {
+    main = mainClass;
+    classpath = sourceSets.main.runtimeClasspath;
+}
+
+task (debug, dependsOn: classes, type: JavaExec) {
+    main = mainClass;
+    classpath = sourceSets.main.runtimeClasspath;
+    debug = true;
+}
+
+repositories {
+    mavenCentral();
+    mavenRepo urls: ["http://maven.restlet.org"]
+    mavenRepo urls: ['http://repository.jboss.org/maven2/']
+
+}
+
+dependencies {
+    
+    compile "org.codehaus.gpars:gpars:0.12"
+    
+    compile "org.restlet.jse:org.restlet:2.1.0"
+    compile "org.restlet.jse:org.restlet.ext.json:2.1.0"
+    
+    compile 'org.slf4j:slf4j-api:1.6.1'
+    compile 'ch.qos.logback:logback-classic:0.9.28'
+    
+    groovy "org.codehaus.groovy:groovy-all:1.8.6"
+    testCompile "org.spockframework:spock-core:0.6-groovy-1.8" 
+}
