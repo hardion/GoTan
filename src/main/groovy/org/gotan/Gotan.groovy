@@ -74,8 +74,12 @@ class Gotan {
         localServer.addObjectClass(gclazz, clazzId)
     }
     
-    def unregisterLocalClass(String){
+    def unregisterLocalClass(String gclazz){
         localServer.removeObjectClass(gclazz)
+    }
+    
+    def unregisterLocalObject(String object){
+        localServer.removeObject(object)
     }
     
     def registerLocalObject(String gclazz, def objectName){

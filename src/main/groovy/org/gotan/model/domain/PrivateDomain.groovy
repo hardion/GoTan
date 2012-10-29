@@ -31,7 +31,7 @@ class PrivateDomain {
                 def newborn = localResolver.newInstance(gclass.id)
 
                 if(newborn){
-                    gclass.objects += objectName
+                    gclass.objects.add objectName
                     this.objects[objectName] = newborn
                     
                     result = true
@@ -54,7 +54,7 @@ class PrivateDomain {
             gclass.objects.remove(objectName)
             this.objects.remove(objectName)
         }else{
-            log.warning("Can't remove this Object : $objectName doesn't exist")
+            log.warn("Can't remove this Object : $objectName doesn't exist")
         }
     }
 

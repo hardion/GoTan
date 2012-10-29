@@ -73,7 +73,7 @@ class GotanCommandResource extends ServerResource{
             // "name=value" tokens.  
             def inputsObject = jsonInput.jsonObject
             
-            inputsObject.keySet().each{key ->
+            inputsObject.keys().each{key ->
                 inputs[key]= inputsObject.get(key)
             }
         }

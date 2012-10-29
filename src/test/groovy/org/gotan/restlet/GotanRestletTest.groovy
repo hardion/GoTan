@@ -9,6 +9,7 @@ import org.restlet.data.MediaType
 import org.gotan.Gotan
 import org.gotan.IndoorThermometer
 import org.restlet.ext.json.JsonRepresentation
+import groovy.json.JsonSlurper
 
 
 class GotanRestletTest extends Specification {
@@ -81,6 +82,27 @@ class GotanRestletTest extends Specification {
           
     }
     
+    def "Set Attribute"() {
+        def gunThermometer = "garage/workspace/thermogun"
+        def expectedSetting = """{"value":16,"unit":"Farenheit"}"""
+        def slurper = new JsonSlurper()
+        
+        setup:
+        gotan.registerLocalObject("Thermometer", gunThermometer)
+
+        when:
+        ClientResource resource = new ClientResource("http://localhost:8080/gotan/objects/$gunThermometer/attributes/min");
+
+        then:
+        // The order doesn't matter. With the help of JsonSlurper these objects are equals if they have the same structure and values
+        slurper.parseText(resource.post(new JsonRepresentation(expectedSetting), MediaType.APPLICATION_JSON).text) == slurper.parseText(expectedSetting)
+        
+        cleanup:
+        gotan.unregisterLocalObject(gunThermometer)
+        
+    }
+
+    
     def "Read attribute's properties"() {
         setup :
         ClientResource resource = new ClientResource("http://localhost:8080/gotan/objects/$thermometer/attributes/temperature/properties");
@@ -114,6 +136,7 @@ class GotanRestletTest extends Specification {
         resource.get(MediaType.APPLICATION_JSON).text == resetExpected
           
     }
+    
     def "Execute command"() {
         
         when:
