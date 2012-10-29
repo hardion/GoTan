@@ -29,19 +29,33 @@ class GotanServerTest extends Specification {
         gotan.classes["IndoorThermometer"].id == IndoorThermometer.class
   
     }
-
-    def "Register a new gotan object"() {
-        setup:
     
-        def gotan = new Gotan()
-        // Register a new Java Class as a GotanObject Class
-        gotan.registerLocalClass("IndoorThermometer", IndoorThermometer.class)
-
+    def "Unregister a new gotan class"() {
+        setup:
+        gotan.registerLocalClass("IndoorWaterThermometer", IndoorThermometer.class)
+        
         when:
-        gotan.registerLocalObject("IndoorThermometer", thermometer)
+        // Register a new Java Class as a GotanObject Class
+        gotan.unregisterLocalClass("IndoorWaterThermometer")
 
         then:
-        gotan."$thermometer".temperature
+        gotan.classes["IndoorWaterThermometer"] == null
+  
+    }
+
+    def "Unregister a new gotan object"() {
+        def roofThermometer = "home/roof/thermometer"
+
+        setup:
+        // Register a new Java Class as a GotanObject Class
+        gotan.registerLocalClass("IndoorAirThermometer", IndoorThermometer.class)
+        gotan.registerLocalObject("IndoorAirThermometer", roofThermometer)
+
+        when:
+        gotan.unregisterLocalObject( roofThermometer )
+
+        then:
+        gotan."$roofThermometer" == null
   
     }
   

@@ -49,7 +49,10 @@ class PrivateDomain {
     
     void unregister(def objectName){
         
-        def gclass = classes.values.find({it.objects.contains(objectName)})
+        def gclass = classes.findResult(
+            { key, value ->
+                value.objects.contains(objectName) ? value : null
+            })
         if(gclass){
             gclass.objects.remove(objectName)
             this.objects.remove(objectName)
