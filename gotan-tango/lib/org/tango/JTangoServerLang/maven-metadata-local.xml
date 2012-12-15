@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.tango</groupId>
+  <artifactId>JTangoServerLang</artifactId>
+  <versioning>
+    <versions>
+      <version>1.0.1-SA-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20121211224116</lastUpdated>
+  </versioning>
+</metadata>

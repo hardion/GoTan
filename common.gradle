@@ -1,0 +1,60 @@
+//
+// This file is to be applied to every subproject.
+//
+
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'application'
+
+String mavenGroupId = 'org.gotan'
+String mavenVersion = '1.0-SNAPSHOT'
+
+sourceCompatibility = '1.6'
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral();
+    mavenRepo urls: ["http://maven.restlet.org"]
+}
+
+dependencies {
+    // Adding dependencies here will add the dependencies to each subproject.
+    compile 'org.slf4j:slf4j-api:1.6.1'
+    compile 'ch.qos.logback:logback-classic:0.9.28'
+    
+    groovy "org.codehaus.groovy:groovy-all:1.8.6"
+
+    testCompile "org.spockframework:spock-core:0.6-groovy-1.8" 
+}
+
+String mavenArtifactId = name
+
+group = mavenGroupId
+version = mavenVersion
+
+task sourcesJar(type: Jar, dependsOn: classes, description: 'Creates a jar from the source files.') {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives jar
+    archives sourcesJar
+}
+
+configure(install.repositories.mavenInstaller) {
+    pom.project {
+        groupId = mavenGroupId
+        artifactId = mavenArtifactId
+        version = mavenVersion
+    }
+}
+
+task createFolders(description: 'Creates the source folders if they do not exist.') doLast {
+    sourceSets*.allSource*.srcDirs*.each { File srcDir ->
+        if (!srcDir.isDirectory()) {
+            println "Creating source folder: ${srcDir}"
+            srcDir.mkdirs()
+        }
+    }
+}

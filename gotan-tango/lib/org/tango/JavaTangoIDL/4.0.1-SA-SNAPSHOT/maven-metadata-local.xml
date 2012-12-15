@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>org.tango</groupId>
+  <artifactId>JavaTangoIDL</artifactId>
+  <version>4.0.1-SA-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <localCopy>true</localCopy>
+    </snapshot>
+    <lastUpdated>20121211213247</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>jar</extension>
+        <value>4.0.1-SA-SNAPSHOT</value>
+        <updated>20121211213247</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>4.0.1-SA-SNAPSHOT</value>
+        <updated>20121211213247</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>

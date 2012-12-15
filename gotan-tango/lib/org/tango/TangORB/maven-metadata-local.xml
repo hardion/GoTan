@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.tango</groupId>
+  <artifactId>TangORB</artifactId>
+  <versioning>
+    <versions>
+      <version>7.4.7-SA-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20121211213638</lastUpdated>
+  </versioning>
+</metadata>
