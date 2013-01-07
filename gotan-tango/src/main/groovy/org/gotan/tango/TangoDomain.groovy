@@ -44,14 +44,14 @@ class TangoDomain {
     
     def TangoDomain(){
         this(DatabaseFactory.getDatabase(TANGO_HOST_NAME, TANGO_HOST_PORT))
+       //this(new fr.esrf.TangoApi.Database(TANGO_HOST_NAME, TANGO_HOST_PORT));
     }
     
     def TangoDomain(def db){
         database = db
-        def devicelist = database.getDeviceList("*","*" /*"TangoTest"*/)
-        log.debug( "database=$database ; objects = $devicelist" )
+        def devicelist = database.getDeviceList("*","*")
+        log.debug( "TangoHost=${System.getProperty("TANGO_HOST")} ; database=$database ; objects = $devicelist" )
         devices = devicelist.collectEntries {[(it):new TangoObject(it)]}
-//        database.getClassList("*")
     }
     
     def getClasses(){
