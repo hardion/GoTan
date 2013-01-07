@@ -19,6 +19,9 @@ repositories {
 
 dependencies {
     // Adding dependencies here will add the dependencies to each subproject.
+    compile "org.restlet.jse:org.restlet:2.1.0"
+    compile "org.restlet.jse:org.restlet.ext.json:2.1.0"
+    
     compile 'org.slf4j:slf4j-api:1.6.1'
     compile 'ch.qos.logback:logback-classic:0.9.28'
     
