@@ -1,4 +1,4 @@
-package org.tango.android.client;
+package org.gotan.client.android;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -85,8 +85,34 @@ public class RestClient {
 		return sb.toString();
 	}
 
-	
-
+//	public void sendHttpPost(String url) throws ClientProtocolException, IOException{
+//		HttpPost httpPostRequest = new HttpPost(url /*+ buildParams()*/);
+// 
+//		// add headers
+//		Iterator<Entry<String, Object>> it = headers.entrySet().iterator();
+//		 while (it.hasNext()) {
+//			 Entry<String,Object> header = it.next(); httpPostRequest.addHeader(header.getKey(), header.getValue());
+//		 }
+//	  
+//	  HttpClient client = new DefaultHttpClient();
+//	  HttpResponse resp;
+//	  
+//	  resp = client.execute(httpPostRequest);
+//	  
+//	  this.respCode = resp.getStatusLine().getStatusCode();
+//	  Log.i(TAG, "response code: " + getResponseCode());
+//	  this.responsePhrase = resp.getStatusLine().getReasonPhrase(); Log.i(TAG, "error msg: " +  getErrorMsg()); 
+//	  HttpEntity entity = resp.getEntity();
+//	  
+//	  if (entity != null){
+//		  InputStream is = entity.getContent(); 
+//		  //Header
+//		  contentEncoding = resp.getFirstHeader("Content-encoding"); 
+//		  Log.i(TAG, "endoding" + contentEncoding.getValue()); 
+//		  response =  convertStreamToString(is); 
+//		  response = response.substring(1,response.length()-1);
+//		  response = "{" + response +  "}";
+//		  Log.i(TAG, "response: " + response); is.close(); } }
 	/*
 	 * public static final String TAG = "RestClient"; public static final int
 	 * POST = 0; public static final int GET = 1; public static final int JSON =
