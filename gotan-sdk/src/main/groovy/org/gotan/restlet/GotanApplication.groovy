@@ -6,6 +6,7 @@ import org.restlet.Restlet
 import org.restlet.routing.Router
 import org.restlet.routing.TemplateRoute
 import org.restlet.routing.Variable
+import org.restlet.routing.Redirector
 import org.gotan.representation.JsonGRep
 
 /**
@@ -33,41 +34,80 @@ class GotanApplication extends Application{
         TemplateRoute route
 
         // Defines a route for the resource "list of items"
+        router.attachDefault(GotanResource.class);
         router.attach("/", GotanResource.class);
-        //router.attach("/objects", GotanObjectsResource.class);
-        router.attach("/classes", GotanClassesResource.class);
-        router.attach("/servers", GotanServersResource.class);
-        router.attach("/objects", GotanObjectsResource.class,);
+
+        this.addSimpleRouter(router, "/classes", GotanClassesResource.class);
         
+        this.addSimpleRouter(router, "/servers", GotanServersResource.class);
 
-        route = router.attach("/objects/{object}/attributes/{attribute}/properties/{property}", GotanAttributePropertyResource.class)
-        route.template.variables["object"] = new Variable(Variable.TYPE_URI_PATH)
+        this.addSimpleRouter(router, "/objects", GotanObjectsResource.class);        
 
-        route = router.attach("/objects/{object}/attributes/{attribute}/properties", GotanAttributePropertiesResource.class)
-        route.template.variables["object"] = new Variable(Variable.TYPE_URI_PATH)
+        this.addBasedObjectRouter(router, "/objects/{object}/attributes/{attribute}/properties/{property}", GotanAttributePropertyResource.class )
 
-        route = router.attach("/objects/{object}/attributes/{attribute}", GotanAttributeResource.class)
-        route.template.variables["object"] = new Variable(Variable.TYPE_URI_PATH)
+        this.addBasedObjectRouter(router, "/objects/{object}/attributes/{attribute}/properties", GotanAttributePropertiesResource.class )
 
-        route = router.attach("/objects/{object}/attributes", GotanAttributesResource.class)
-        route.template.variables["object"] = new Variable(Variable.TYPE_URI_PATH)
+        this.addBasedObjectRouter(router, "/objects/{object}/attributes/{attribute}", GotanAttributeResource.class )
 
-        route = router.attach("/objects/{object}/commands/{command}", GotanCommandResource.class)
-        route.template.variables["object"] = new Variable(Variable.TYPE_URI_PATH)
+        this.addBasedObjectRouter(router, "/objects/{object}/attributes", GotanAttributesResource.class)
 
-        route = router.attach("/objects/{object}/commands", GotanCommandsResource.class)
-        route.template.variables["object"] = new Variable(Variable.TYPE_URI_PATH)
+        this.addBasedObjectRouter(router, "/objects/{object}/commands/{command}", GotanCommandResource.class)
 
-        route = router.attach("/objects/{object}/properties/{property}", GotanPropertyResource.class)
-        route.template.variables["object"] = new Variable(Variable.TYPE_URI_PATH)
+        this.addBasedObjectRouter(router, "/objects/{object}/commands", GotanCommandsResource.class)
 
-        route = router.attach("/objects/{object}/properties", GotanPropertiesResource.class)
-        route.template.variables["object"] = new Variable(Variable.TYPE_URI_PATH)
+        this.addBasedObjectRouter(router, "/objects/{object}/properties/{property}", GotanPropertyResource.class)
 
-        route = router.attach("/objects/{object}", GotanObjectResource.class);
-        route.template.variables["object"] = new Variable(Variable.TYPE_URI_PATH)
+        this.addBasedObjectRouter(router, "/objects/{object}/properties", GotanPropertiesResource.class)
+
+        this.addBasedObjectRouter(router, "/objects/{object}", GotanObjectResource.class);
         
         return router;
+    }
+    
+    /**
+     * Add a redirector to deal with the trailing slash
+     * Every Restlet node route should ends with /
+     * 
+     */
+    private def addRedirector(def router, def path){
+        // Deal with the trailing slash
+        // 
+        def pathSlashed = path
+        if ( path.endsWith("/") ){
+            path = path[0..-1]
+        }else {
+            pathSlashed += "/"
+        }
+        
+        router.attach(path, new Redirector(this.context, pathSlashed));
+//        router.attach(pathSlashed, new Redirector(this.context, path));
+        
+        return pathSlashed
+    }
+
+    /**
+     * Create a route based on object url
+     */
+    private def addSimpleRouter(def router, def path, def restlet){
+        
+        // Create the route
+        // And the redirector in case of path without the trailing space
+        //path = this.addRedirector(router, path+"/")
+        def route = router.attach(path, restlet)
+        
+        return route
+    }
+
+    
+    /**
+     * Create a route based on object url
+     */
+    private def addBasedObjectRouter(def router, def path, def restlet){
+        
+        // Create the route and the redirector
+        // Set the object variable as an URI type
+        def route = this.addSimpleRouter(router, path, restlet)
+        route.template.variables["object"] = new Variable(Variable.TYPE_URI_PATH)
     }
 
 
