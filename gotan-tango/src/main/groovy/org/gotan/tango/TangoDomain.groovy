@@ -31,7 +31,7 @@ import org.slf4j.*
  */
 @Slf4j
 class TangoDomain {
-    static String TANGO_HOST = System.getProperty("TANGO_HOST",System.env.TANGO_HOST?:"192.168.56.102:10000");
+    static String TANGO_HOST = System.getProperty("TANGO_HOST",System.env.TANGO_HOST?:"192.168.56.101:10000");
     static String TANGO_HOST_NAME = TANGO_HOST.tokenize(":")[0]
     //static String TANGO_HOST_NAME="m4develop.maxlab.lu.se"
     static String TANGO_HOST_PORT = TANGO_HOST.tokenize(":")[1]
@@ -49,6 +49,7 @@ class TangoDomain {
     
     def TangoDomain(def db){
         database = db
+        database.clearCache()
         def devicelist = database.getDeviceList("*","*")
         log.debug( "TangoHost=${System.getProperty("TANGO_HOST")} ; database=$database ; objects = $devicelist" )
         devices = devicelist.collectEntries {[(it):new TangoObject(it)]}
