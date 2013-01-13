@@ -16,8 +16,6 @@ if (!hasProperty('mainClass')) {
 repositories {
     mavenCentral();
     mavenRepo urls: ["http://maven.restlet.org"]
-    mavenRepo urls: ['http://repository.jboss.org/maven2/']
-
 }
 
 dependencies {
