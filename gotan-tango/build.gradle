@@ -23,7 +23,7 @@ repositories {
     mavenRepo urls: localMavenRepo
     
     mavenCentral();
-    mavenRepo urls: ['http://repository.jboss.org/maven2/']
+    mavenRepo urls: ['http://repository.jboss.org/']
 //    mavenRepo urls: ['http://www2.synchrotron-soleil.fr/controle/maven2/soleil/']
 }
 
