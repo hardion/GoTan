@@ -11,7 +11,7 @@ import org.slf4j.*
 @Slf4j
 class PublicDomain {
   
-    def context = "/gotan/api"
+    def context = "/gotan"
     def subdomains = []
     
     boolean registerDomain( domain ){
