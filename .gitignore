@@ -1,2 +1,4 @@
 build
 .DS_Store
+.gradle
+/gotan-client/gotan-droid/bin/

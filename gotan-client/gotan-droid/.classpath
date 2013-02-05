@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="lib" path="libs/net.jcip.annotations.jar"/>
+	<classpathentry kind="lib" path="libs/org.apache.commons.codec.jar"/>
+	<classpathentry kind="lib" path="libs/org.apache.commons.logging.jar"/>
+	<classpathentry kind="lib" path="libs/org.apache.httpclient.jar"/>
+	<classpathentry kind="lib" path="libs/org.apache.httpcore.jar"/>
+	<classpathentry kind="lib" path="libs/org.apache.httpmime.jar"/>
+	<classpathentry kind="lib" path="libs/org.apache.james.mime4j.jar"/>
+	<classpathentry kind="lib" path="libs/org.json.jar"/>
+	<classpathentry kind="lib" path="libs/org.restlet.ext.httpclient.jar"/>
+	<classpathentry kind="lib" path="libs/org.restlet.ext.json.jar" sourcepath="/Users/vinhar/Developer/Sources/restlet-android-2.1.0/src/org.restlet.ext.json"/>
+	<classpathentry kind="lib" path="libs/org.restlet.jar" sourcepath="/Users/vinhar/Developer/Sources/restlet-android-2.1.0/src/org.restlet"/>
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>

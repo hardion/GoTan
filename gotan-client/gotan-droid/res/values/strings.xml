@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, First GotanDroid Activity!</string>
+    <string name="app_name">GotanDroid</string>
+    <string name="ServerLabel">192.168.56.1:8080</string>
+    <string name="ObjectLabel">sys/tg_test/1</string>
+    <string name="AttributeLabel">string_scalar</string>
+    <string name="ButtonLabel">OK</string>
+    <string name="ValueLabel">Value</string>
+    <string name="SetValueLabel">Value</string>
+
+</resources>

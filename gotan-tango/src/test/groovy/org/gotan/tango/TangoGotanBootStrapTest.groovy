@@ -24,12 +24,10 @@ import org.gotan.model.GAttribute
  */
 @Slf4j
 class TangoGotanBootStrapTest extends Specification {
-    
-    static def TANGO_TEST="sys/tg_test/1"
-    static def TANGO_HOST="192.168.56.101:10000"
-    
-    @Shared def db;
+       
+    @Shared def db
     @Shared def gotan
+    @Shared final static def TANGO_TEST="sys/tg_test/1"
     
     def setupSpec() {
         gotan = new Gotan()
