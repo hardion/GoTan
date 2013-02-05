@@ -62,10 +62,6 @@ startScripts {
     }
 }
 
-// File: build.gradle
-task createWrapper(type: Wrapper) {
-    gradleVersion = '1.3'
-}
 
 // Allow to define argument for the gotan server with tango capability
 run{
