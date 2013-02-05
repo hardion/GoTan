@@ -16,15 +16,13 @@ if (!hasProperty('mainClass')) {
 repositories {
     mavenCentral();
     mavenRepo urls: ["http://maven.restlet.org"]
-    mavenRepo urls: ['http://repository.jboss.org/maven2/']
-
 }
 
 dependencies {
     compile "org.codehaus.gpars:gpars:0.12"
     
-    compile "org.restlet.jse:org.restlet:2.1.0"
-    compile "org.restlet.jse:org.restlet.ext.json:2.1.0"
+    compile "org.restlet.jse:org.restlet:2.1.1"
+    compile "org.restlet.jse:org.restlet.ext.json:2.1.1"
     
     compile 'org.slf4j:slf4j-api:1.6.1'
     compile 'ch.qos.logback:logback-classic:0.9.28'
