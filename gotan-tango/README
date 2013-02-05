@@ -1,0 +1,59 @@
+Welcome to the Tango module for Gotan.
+The purpose is to access the Tango world through the Gotan REST server
+
+1. RUN IMMEDIATELY
+==================
+This project comes with a build system so you can compile and run without install anything.
+
+$ export TANGO_HOST=127.0.0.1:10000
+$ ./gradlew assemble
+$ ./gradlew run
+
+You could also want to change some parameters :
+$ ./gradlew run -Pgotan="-c /gtn -p 9999 --device-pattern sys/*/*"
+
+For the complete list of parameters :
+$ ./gradlew run -Pgotan="-h"
+
+
+2. COMPILE
+==========
+
+To compile without test :
+$ ./gradlew assemble
+
+To really build the project with the test :
+$ ./gradlew build
+
+You can also use your local gradle installation :
+$ gradle build
+
+
+
+2.1. INTEGRATION TEST
+---------
+Some integration were written to control the development.
+Prerequisites :
+- environment variable TANGO_HOST correctly set
+- TangoTest DeviceServer running a sys/tg_test/1
+
+$ ./gradlew test
+
+
+3. Make the Distribution
+========================
+To make a portable distribution with libraries and scripts :
+$ ./gradlew distTar
+or
+$ ./gradlew distZip
+
+
+4. RUN SURELY
+=============
+unzip gotan-tango-1.0-XXX.zip
+or
+tar -xvzf gotan-tango-1.0-XXX.tar.gz
+
+$ gotan-tango-1.0-XXX/bin/gotan-tango -h
+
+You can go deeper by running the application with your installation of groovy

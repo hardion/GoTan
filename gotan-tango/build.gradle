@@ -36,6 +36,8 @@ dependencies {
     
     groovy "org.codehaus.groovy:groovy-all:1.8.6"
 
+    groovy "commons-cli:commons-cli:1.2"
+    
     testCompile "org.spockframework:spock-core:0.6-groovy-1.8" 
     testCompile "org.tango:JTangoServer:1.0.1-SA-SNAPSHOT" 
 
@@ -63,6 +65,13 @@ startScripts {
 // File: build.gradle
 task createWrapper(type: Wrapper) {
     gradleVersion = '1.3'
+}
+
+// Allow to define argument for the gotan server with tango capability
+run{
+    if(project.hasProperty("gotan")){
+        args gotan.split(" ")
+    }
 }
 
 // Allow to run in debug mode

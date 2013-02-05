@@ -31,26 +31,48 @@ import org.slf4j.*
  */
 @Slf4j
 class TangoDomain {
-    static String TANGO_HOST = System.getProperty("TANGO_HOST",System.env.TANGO_HOST?:"192.168.56.101:10000");
+    
+    static String DEFAULT_TANGO_HOST="192.168.56.101:10000"
+    static String TANGO_HOST = System.getProperty("TANGO_HOST",System.env.TANGO_HOST?:DEFAULT_TANGO_HOST);
     static String TANGO_HOST_NAME = TANGO_HOST.tokenize(":")[0]
-    //static String TANGO_HOST_NAME="m4develop.maxlab.lu.se"
     static String TANGO_HOST_PORT = TANGO_HOST.tokenize(":")[1]
+    
+    static String useCacheDatabase = System.getProperty("GOTAN_TANGO_CACHE",System.env.GOTAN_TANGO_CACHE?:"NO");
+        
     static{
        System.setProperty("TANGO_HOST", TANGO_HOST)
+    }
+    
+    static def getDefaultDatabase(){
+        def result
+        if(useCacheDatabase == "NO"){
+           result = new fr.esrf.TangoApi.Database(TANGO_HOST_NAME, TANGO_HOST_PORT)
+            
+        }else{
+           result = DatabaseFactory.getDatabase(TANGO_HOST_NAME, TANGO_HOST_PORT)
+
+        }
     }
 
     def devices
     def database
     
     def TangoDomain(){
-        this(DatabaseFactory.getDatabase(TANGO_HOST_NAME, TANGO_HOST_PORT))
-       //this(new fr.esrf.TangoApi.Database(TANGO_HOST_NAME, TANGO_HOST_PORT));
+        this(TangoDomain.getDefaultDatabase())
     }
     
-    def TangoDomain(def db){
+    def TangoDomain(def db, def deviceFilter="*"){
         database = db
-        database.clearCache()
-        def devicelist = database.getDeviceList("*","*")
+        
+        def devicelist
+        
+        if(database instanceof fr.esrf.TangoApi.Database){
+            devicelist = database.get_device_list(deviceFilter)
+            
+        }else if (database instanceof org.tango.client.database.Database){
+            database.clearCache()
+            devicelist = database.getDeviceList("*","*").grep(~/${deviceFilter.replace("*",".*")}/)
+        }
         log.debug( "TangoHost=${System.getProperty("TANGO_HOST")} ; database=$database ; objects = $devicelist" )
         devices = devicelist.collectEntries {[(it):new TangoObject(it)]}
     }
