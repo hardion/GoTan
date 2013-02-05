@@ -52,7 +52,7 @@ class Gotan {
     }
     
     def setContext(context){        
-        localServer.domain.context = context.startWith("/") ?: "/"+context
+        localServer.domain.context = context.startsWith("/") ?: "/"+context
     }
     def getContext(){
         localServer.domain.context
