@@ -20,5 +20,24 @@
       <task-args/>
       <task-jvm-args/>
     </task>
+    <task>
+      <display-name>jar</display-name>
+      <non-blocking>no</non-blocking>
+      <task-names>
+        <name must-exist="yes">jar</name>
+      </task-names>
+      <task-args/>
+      <task-jvm-args/>
+    </task>
+    <task>
+      <display-name>Zip and Tar</display-name>
+      <non-blocking>no</non-blocking>
+      <task-names>
+        <name must-exist="no">distZip</name>
+        <name must-exist="no">distTar</name>
+      </task-names>
+      <task-args/>
+      <task-jvm-args/>
+    </task>
   </common-tasks>
 </gradle-project-properties>
