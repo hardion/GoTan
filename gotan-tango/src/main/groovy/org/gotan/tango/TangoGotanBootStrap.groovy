@@ -29,7 +29,7 @@ class TangoGotanBootStrap{
     public static void main(String[] args){
 
         // CLI Management
-        def cli = new CliBuilder(usage:'Gotan [options]')
+        def cli = new CliBuilder(usage:'Gotan [options]', posix:true)
         cli.h(longOpt:'help', 'print this message')
         cli._(longOpt:'simulate', 'Use Simulated devices')
         cli.th(longOpt:'tango_host', 'Set the TANGO_HOST (by default try with Environnement variable) ')
