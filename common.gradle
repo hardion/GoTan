@@ -7,7 +7,7 @@ apply plugin: 'maven'
 apply plugin: 'application'
 
 String mavenGroupId = 'org.gotan'
-String mavenVersion = '1.0-SNAPSHOT'
+String mavenVersion = '1.0'
 
 sourceCompatibility = '1.7'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
