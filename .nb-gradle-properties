@@ -39,5 +39,14 @@
       <task-args/>
       <task-jvm-args/>
     </task>
+    <task>
+      <display-name>deb</display-name>
+      <non-blocking>no</non-blocking>
+      <task-names>
+        <name must-exist="no">deb</name>
+      </task-names>
+      <task-args/>
+      <task-jvm-args/>
+    </task>
   </common-tasks>
 </gradle-project-properties>

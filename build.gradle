@@ -2,6 +2,19 @@ import org.gradle.api.artifacts.*
 
 apply plugin: 'base' // To add "clean" task to the root project.
 
+// License plugin
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.5.0'
+    }
+}
+
+apply plugin: 'license'
+
 subprojects {
     apply from: rootProject.file('common.gradle')
 }

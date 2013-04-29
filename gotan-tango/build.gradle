@@ -10,6 +10,7 @@
 // prefer. In this case NetBeans will not add these tasks but you may rely on
 // your own implementation.
 apply plugin: 'rpm'
+//apply plugin: 'ubuntu'
 
 
 if (!hasProperty('mainClass')) {
@@ -17,29 +18,24 @@ if (!hasProperty('mainClass')) {
 }
 mainClassName = ext.mainClass
 
-def localMavenRepo = "file://${project.projectDir}/lib"
-
 repositories {
     // Use local Maven repo location. We don't need this if we only want to install
     // an artifact, but we do need it if we want to use dependencies from the local
     // repository.
-    mavenRepo urls: localMavenRepo
-    
-    mavenCentral();
-    mavenRepo urls: ['http://repository.jboss.org/']
-//    mavenRepo urls: ['http://www2.synchrotron-soleil.fr/controle/maven2/soleil/']
+    maven { url "http://jcenter.bintray.com" } 
+    maven { url "http://dl.bintray.com/content/vhardion/gotan-mvn" } 
 }
 
 dependencies {
     compile project(':gotan-sdk')
-    compile "org.tango:JTangoClientLang:1.0.1-SA-SNAPSHOT"
+    compile "org.tango:JTangoClientLang:1.0.1-WSP"
     
     compile 'org.slf4j:slf4j-api:1.6.1'
     compile 'ch.qos.logback:logback-classic:0.9.28'
     
     compile "commons-cli:commons-cli:1.2"
     
-    testCompile "org.tango:JTangoServer:1.0.1-SA-SNAPSHOT" 
+    testCompile "org.tango:JTangoServer:1.0.1-alpha-WSP" 
 
 }
 
@@ -84,10 +80,14 @@ buildscript {
     // Used by the RPM plugin
     repositories {
         mavenCentral()
+        mavenLocal()
     }
     // The RPM plugin itself
     dependencies {
         classpath 'com.trigonic:gradle-rpm-plugin:1.3'
+                // For the ubuntu packager plugin
+//        classpath 'be.thinkerit.gradle:ubuntu-packager-plugin:dev-SNAPSHOT'
+
     }
 }
 
@@ -120,7 +120,6 @@ task rpm(type: Rpm) {
         
     from('src/main/scripts') {
         into 'bin'
-        exclude 'database'
         fileMode = 0550
     }
     
@@ -131,3 +130,22 @@ task rpm(type: Rpm) {
     
     link ('/etc/init.d/gotan','/opt/gotan/bin/init.d')
 }
+
+// To create a debian package
+//ubuntu {
+//    archive = new File("${project.buildDir}/distributions/gotan-tango-1.0.tar").toURI()
+//    releaseNotes = "Example for the ubuntu packager plugin"
+//    author = 'me'
+//    email = 'me@example.org'
+//    homepage = 'http://example.org'
+//    depends {
+//        // uncomment to add dependencies to be installed
+//        // on 'mysql-server'
+//        // on 'jetty'
+//    }
+//    dirs {
+//        // you can add as many dir statements as you need
+//        dir '/usr/share/helloworld/bin'
+//    }
+//
+//}

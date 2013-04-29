@@ -13,11 +13,6 @@ if (!hasProperty('mainClass')) {
     ext.mainClass = 'org.gotan.Gotan'
 }
 
-repositories {
-    mavenCentral();
-    mavenRepo urls: ["http://maven.restlet.org"]
-}
-
 dependencies {
     compile "org.codehaus.gpars:gpars:0.12"
     

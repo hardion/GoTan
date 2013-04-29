@@ -3,8 +3,9 @@
 //
 
 apply plugin: 'groovy'
-apply plugin: 'maven'
+//apply plugin: 'maven'
 apply plugin: 'application'
+apply plugin: 'license'
 
 String mavenGroupId = 'org.gotan'
 String mavenVersion = '1.0'
@@ -13,8 +14,8 @@ sourceCompatibility = '1.7'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 repositories {
-    mavenCentral();
-    mavenRepo urls: ["http://maven.restlet.org"]
+    maven { url "http://jcenter.bintray.com" } 
+    maven { url "http://maven.restlet.org" }
 }
 
 dependencies {
@@ -46,13 +47,6 @@ artifacts {
     archives sourcesJar
 }
 
-configure(install.repositories.mavenInstaller) {
-    pom.project {
-        groupId = mavenGroupId
-        artifactId = mavenArtifactId
-        version = mavenVersion
-    }
-}
 
 task createFolders(description: 'Creates the source folders if they do not exist.') doLast {
     sourceSets*.allSource*.srcDirs*.each { File srcDir ->
@@ -65,4 +59,27 @@ task createFolders(description: 'Creates the source folders if they do not exist
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.4'
+}
+
+// License plugin
+buildscript {
+    repositories {
+        mavenCentral()
+        // For the ubuntu packager plugin
+        mavenLocal()
+
+    }
+
+    dependencies {
+        // For the license plugin
+        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.5.0'
+        
+        // For the ubuntu packager plugin
+//        classpath 'be.thinkerit.gradle:ubuntu-packager-plugin:dev-SNAPSHOT'
+
+    }
+}
+
+license {
+    header rootProject.file('LICENSE')    
 }
