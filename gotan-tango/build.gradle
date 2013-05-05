@@ -11,6 +11,7 @@
 // your own implementation.
 apply plugin: 'rpm'
 //apply plugin: 'ubuntu'
+apply plugin: 'fpm-packaging'
 
 
 if (!hasProperty('mainClass')) {
@@ -19,9 +20,6 @@ if (!hasProperty('mainClass')) {
 mainClassName = ext.mainClass
 
 repositories {
-    // Use local Maven repo location. We don't need this if we only want to install
-    // an artifact, but we do need it if we want to use dependencies from the local
-    // repository.
     maven { url "http://jcenter.bintray.com" } 
     maven { url "http://dl.bintray.com/content/vhardion/gotan-mvn" } 
 }
@@ -86,13 +84,14 @@ buildscript {
     dependencies {
         classpath 'com.trigonic:gradle-rpm-plugin:1.3'
                 // For the ubuntu packager plugin
-//        classpath 'be.thinkerit.gradle:ubuntu-packager-plugin:dev-SNAPSHOT'
+        classpath 'be.thinkerit.gradle:ubuntu-packager-plugin:dev-SNAPSHOT'
+        classpath 'com.kenshoo:gradle-fpm:0.3'
 
     }
 }
 
 // Generate a RPM
-task rpm(type: Rpm) {
+task RPM(type: Rpm) {
     packageName = rootProject.name
     version = project.version
     release = 1
@@ -130,6 +129,44 @@ task rpm(type: Rpm) {
     
     link ('/etc/init.d/gotan','/opt/gotan/bin/init.d')
 }
+
+def stagingDir = new File(project.buildDir, "staging")
+
+task preparePackaging(type: Copy) {
+   into(stagingDir)
+
+    from(jar.outputs.files) {
+        into 'lib'
+    }
+    
+    from(configurations.runtime) {
+        into 'lib'
+    }
+        
+    from('src/main/scripts') {
+      exclude '**/init.d'
+      rename 'init.d.debian', 'init.d'
+      into 'bin'
+        fileMode = 0550
+    }
+    
+    from('src/main/resources') {
+        fileMode = 0550
+        into 'conf'
+    }
+    
+//    link ('/etc/init.d/gotan','/opt/gotan/bin/init.d')  
+}
+
+packaging{
+    dependencies = ['openjdk-6-jre', 'tango-common'] //Optional, an array of package dependencies
+    baseDir = stagingDir// Optional, base directory to package, default: project.buildDir
+    prefix = "/opt/gotan" // Optional, a path to prefix files when building package, default: root (/)
+    extraOptions = ['--vendor': 'me', '--maintainer': 'me', '-a':'all'] // Optional, a map containing extra options
+//    filesArgs = ['dir1', 'file1']//Optional, array of files/dirs to package, relative to baseDir, default: .
+}
+
+debian.dependsOn preparePackaging
 
 // To create a debian package
 //ubuntu {
