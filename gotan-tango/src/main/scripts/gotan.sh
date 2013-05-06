@@ -28,7 +28,7 @@ PARAMS=""
 [ -n "$GOTAN_HTTP_PORT" ] && PARAMS="$PARAMS --httpPort=$GOTAN_HTTP_PORT"
 [ -n "$GOTAN_SIMULATION" -a "$GOTAN_SIMULATION" = "true" ] && PARAMS="$PARAMS --simulate"
 # TANGO PARAMETERS
-[ -n "$TANGO_HOST" ] && PARAMS="$PARAMS --tango-host=$TANGO_HOST"
+[ -n "$TANGO_HOST" ] && PARAMS="$PARAMS --tango_host=$TANGO_HOST"
 [ -n "$TANGO_DEVICE_PATTERN" ] && PARAMS="$PARAMS --device-pattern=$TANGO_DEVICE_PATTERN"
 
 # Use the maximum available, or set MAX_FD != -1 to use that value.

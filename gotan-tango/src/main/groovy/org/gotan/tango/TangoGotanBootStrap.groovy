@@ -32,7 +32,7 @@ class TangoGotanBootStrap{
         def cli = new CliBuilder(usage:'Gotan [options]', posix:true)
         cli.h(longOpt:'help', 'print this message')
         cli._(longOpt:'simulate', 'Use Simulated devices')
-        cli.th(longOpt:'tango_host', 'Set the TANGO_HOST (by default try with Environnement variable) ')
+        cli.th(longOpt:'tango_host', args:1, argName:'value', 'Set the TANGO_HOST (by default try with Environnement variable) ')
         cli.p(longOpt:'httpPort', args:1, argName:'value', 'HTTP PORT')
         cli.c(longOpt:'context', args:1, argName:'value', 'Context of the server ; useful for reverse proxy (ie: http://myserver:port/context/)')
         cli._(longOpt:'device-pattern', args:1, argName:'value', 'Filter out the device to export ; use "*" as a joker')
@@ -52,6 +52,10 @@ class TangoGotanBootStrap{
             // set the port
             if(options.p){
                 gotan.port = options.p.toInteger()
+            }
+            // set TANGO_HOST
+            if(options.th){
+               System.setProperty("TANGO_HOST", options."tango_host")
             }
             
             if(options."device-pattern"){
