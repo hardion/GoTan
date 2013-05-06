@@ -42,19 +42,5 @@ class GotanObject implements GObject{
         commands[name].execute(args)
     }
     
-    def toJson(){
-        //        def builder = new JsonBuilder()
-        //        builder.object{
-        new JsonBuilder(
-            "class": gclass,
-            "state": state,
-            "status": status,
-            "attributes": attributes/*.keySet()*/,
-            "commands": commands.keySet(),
-            "properties": gproperties.keySet(),
-        ).toString()
-        //        }
-        //        builder.toString()
-    }
 }
 

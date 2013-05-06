@@ -6,6 +6,8 @@ import spock.lang.Shared
 import org.restlet.resource.ClientResource
 import org.restlet.data.MediaType
 
+import org.gotan.representation.JsonGRep
+
 class GotanObjectTest extends Specification {
 
     static def temperatureExpected = '''{"value":20.1,"unit":"degres","properties":{"minAlarm":"19","maxAlarm":"23"}}'''
@@ -35,7 +37,7 @@ class GotanObjectTest extends Specification {
     
     def "Get a Gotan Object in Json format"(){
         expect:
-        gotan."$thermometer".toJson() == thermometerExpected
+        JsonGRep.toJSON(gotan."$thermometer") == thermometerExpected
     }
     
     def "Read attributes"() {
@@ -72,7 +74,7 @@ class GotanObjectTest extends Specification {
     def "Read an attribute with the Json format"() {
 
         expect:
-        gotan."$thermometer".temperature.toJson() == temperatureExpected
+        JsonGRep.toJSON(gotan."$thermometer".temperature) == temperatureExpected
   
     }
 

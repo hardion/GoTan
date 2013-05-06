@@ -31,13 +31,6 @@ class GotanCommand implements GCommand{
         this.command.call(args)
     }
     
-    def toJson(){
-        new JsonBuilder(
-            "inputs": inputs,
-            "outputs": outputs,
-        ).toString()
-    }      
-
 	
 }
 

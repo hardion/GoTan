@@ -15,6 +15,8 @@ import org.json.JSONArray
 import groovy.json.JsonOutput
 import org.json.JSONObject
 
+import org.gotan.representation.JsonGRep
+
 /**
  * The internet of Things
  * 
@@ -41,7 +43,7 @@ class GotanObjectResource extends ServerResource{
     
     @Get
     public JsonRepresentation toJSON() {
-        def json = object.toJson()
+        def json = JsonGRep.toJSON(object)
         log.debug("object = ${json}") 
         return new JsonRepresentation( json );
     }

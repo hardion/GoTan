@@ -19,13 +19,5 @@ class GotanAttribute implements GAttribute{
     def propertyMissing(String name) {
         gproperties[name] 
     }
-
-    def toJson(){
-        new JsonBuilder(
-            "value": value,
-            "unit": unit,
-            "properties": gproperties,
-        ).toString()
-    }
 }
 

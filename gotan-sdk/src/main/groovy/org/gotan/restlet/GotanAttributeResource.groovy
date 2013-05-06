@@ -13,6 +13,8 @@ import org.json.JSONObject
 import org.restlet.representation.Representation
 import org.restlet.data.Status
 
+import org.gotan.representation.JsonGRep
+
 /**
  * The internet of Things
  * 
@@ -47,7 +49,7 @@ class GotanAttributeResource extends ServerResource{
         
         // Doesn't work with object.attributes."$attributeName" if the getter is overriden 
         log.debug("object.attribute = ${attribute}")         
-        def json = attribute.toJson()
+        def json = JsonGRep.toJSON(attribute)
         log.debug("object.attribute = ${json}") 
         return new JsonRepresentation( json );
     }

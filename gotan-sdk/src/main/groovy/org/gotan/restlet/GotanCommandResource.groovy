@@ -18,6 +18,8 @@ import org.json.JSONObject
 import org.restlet.representation.Representation
 import org.restlet.data.Status
 
+import org.gotan.representation.JsonGRep
+
 
 
 /**
@@ -53,7 +55,7 @@ class GotanCommandResource extends ServerResource{
         def command = this.object.commands[commandName]
         // Doesn't work with object.attributes."$attributeName" if the getter is overriden 
         log.debug("object.command = ${command}")
-        def json = command.toJson()
+        def json = JsonGRep.toJSON(command)
         log.debug("object.command = ${json}") 
         return new JsonRepresentation( json );
     }
