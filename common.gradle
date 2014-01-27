@@ -4,17 +4,16 @@
 
 apply plugin: 'groovy'
 apply plugin: 'application'
-apply plugin: 'license'
 
 group = 'org.gotan'
-version = '1.0.1'
+version = '1.0.2'
 
 sourceCompatibility = '1.7'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 repositories {
-    maven { url "http://jcenter.bintray.com" } 
-    maven { url "http://maven.restlet.org" }
+     jcenter()
+     maven { url "http://maven.restlet.org" }
 }
 
 dependencies {
@@ -26,9 +25,7 @@ dependencies {
     compile 'ch.qos.logback:logback-classic:0.9.28'
     
     compile "org.codehaus.groovy:groovy-all:2.1.0"
-    //compile "org.codehaus.groovy:groovy-all:1.8.6"
     testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
-    //testCompile "org.spockframework:spock-core:0.6-groovy-1.8" 
 }
 
 task sourcesJar(type: Jar, dependsOn: classes, description: 'Creates a jar from the source files.') {
@@ -52,15 +49,13 @@ task createFolders(description: 'Creates the source folders if they do not exist
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.4'
+    gradleVersion = '1.8'
 }
 
 // License plugin
 buildscript {
     repositories {
-        mavenCentral()
-        // For the ubuntu packager plugin
-        mavenLocal()
+        jcenter()
 
     }
 

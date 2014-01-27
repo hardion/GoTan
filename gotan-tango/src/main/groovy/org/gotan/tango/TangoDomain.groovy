@@ -32,7 +32,7 @@ import org.slf4j.*
 @Slf4j
 class TangoDomain {
     
-    static String DEFAULT_TANGO_HOST="192.168.56.101:10000"
+    static String DEFAULT_TANGO_HOST="10.0.1.16:10000"
     static String TANGO_HOST = System.getProperty("TANGO_HOST",System.env.TANGO_HOST?:DEFAULT_TANGO_HOST);
     static String TANGO_HOST_NAME = TANGO_HOST.tokenize(":")[0]
     static String TANGO_HOST_PORT = TANGO_HOST.tokenize(":")[1]
@@ -40,6 +40,7 @@ class TangoDomain {
     static String useCacheDatabase = System.getProperty("GOTAN_TANGO_CACHE",System.env.GOTAN_TANGO_CACHE?:"NO");
         
     static{
+       System.out.println('-----000000000000-----'+TANGO_HOST);
        System.setProperty("TANGO_HOST", TANGO_HOST)
     }
     

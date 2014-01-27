@@ -5,7 +5,7 @@ apply plugin: 'base' // To add "clean" task to the root project.
 // License plugin
 buildscript {
     repositories {
-        mavenCentral()
+     jcenter()
     }
 
     dependencies {

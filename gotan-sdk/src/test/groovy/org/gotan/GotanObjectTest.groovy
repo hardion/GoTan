@@ -13,7 +13,7 @@ class GotanObjectTest extends Specification {
     static def temperatureExpected = '''{"value":20.1,"unit":"degres","properties":{"minAlarm":"19","maxAlarm":"23"}}'''
     static def attributesExpected = ["temperature", "min", "max"]
     static def jsonAttributesExpected = '''["temperature","min","max"]'''
-    static def thermometerExpected = """{"class":{"version":"1.0.0","name":"org.gotan.IndoorThermometer"},"state":"ON","status":"Ready","attributes":{"temperature":{"value":21.1,"unit":"degres","gproperties":{"minAlarm":"19","maxAlarm":"23"}},"min":{"value":1.7976931348623157E308,"unit":"NoUnit","gproperties":{}},"max":{"value":4.9E-324,"unit":"NoUnit","gproperties":{}}},"commands":["reset"],"properties":["defaultMin"]}"""
+    static def thermometerExpected = """{"class":{"version":"1.0.0","name":"org.gotan.IndoorThermometer"},"state":"ON","status":"Ready","attributes":["temperature","min","max"],"commands":["reset"],"properties":["defaultMin"]}"""
   
     @Shared def thermometer = "home/kitchen/thermometer"
     @Shared def gotan

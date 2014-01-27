@@ -30,11 +30,11 @@ import org.slf4j.*
  * @author hardion
  */
 class TangoGAttribute implements GAttribute {
-  def attribute
+  private def attribute
 
-    TangoGAttribute(TangoAttribute attribute){
+  TangoGAttribute(TangoAttribute attribute){
         this.attribute = attribute
-    }
+  }
     
   public Object getValue(){
       attribute.read()
@@ -45,7 +45,7 @@ class TangoGAttribute implements GAttribute {
   }
     
   public String getUnit(){
-      attribute.attributeInfo.unit
+     attribute.attributeProxy.get_info().unit
   }
 
   public void setUnit(String o){
@@ -53,7 +53,7 @@ class TangoGAttribute implements GAttribute {
   }
 
   public Map<String, String> getGproperties(){
-      def info = attribute.attributeInfo
+      def info = attribute.attributeProxy.get_info()
       [ "timestamp":attribute.timestamp,
         "quality":attribute.quality.toString(),
         "description":info.description,

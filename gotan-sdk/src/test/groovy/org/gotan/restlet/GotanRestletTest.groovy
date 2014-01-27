@@ -18,8 +18,7 @@ class GotanRestletTest extends Specification {
     static def attributesExpected = '''["temperature","min","max"]'''
     static def resetExpected = '''{"inputs":{},"outputs":{}}'''
     static def commandsExpected = '''["reset"]'''
-//    static def objectExpected = """{"class":{"version":"1.0.0","name":"org.gotan.IndoorThermometer"},"state":"ON","status":"Ready","attributes":{"temperature":{"value":21.1,"unit":"degres","gproperties":{"minAlarm":19,"maxAlarm":23}},"min":{"value":1.7976931348623157E308,"unit":"NoUnit","gproperties":{}},"max":{"value":4.9E-324,"unit":"NoUnit","gproperties":{}}},"commands":["reset"],"properties":{"defaultMin":-275}}"""
-    static def objectExpected = """{"class":{"version":"1.0.0","name":"org.gotan.IndoorThermometer"},"state":"ON","status":"Ready","attributes":{"temperature":{"value":21.1,"unit":"degres","gproperties":{"minAlarm":"19","maxAlarm":"23"}},"min":{"value":1.7976931348623157E308,"unit":"NoUnit","gproperties":{}},"max":{"value":4.9E-324,"unit":"NoUnit","gproperties":{}}},"commands":["reset"],"properties":["defaultMin"]}"""
+    static def objectExpected = """{"class":{"version":"1.0.0","name":"org.gotan.IndoorThermometer"},"state":"ON","status":"Ready","attributes":["temperature","min","max"],"commands":["reset"],"properties":["defaultMin"]}"""
   
     @Shared def thermometer = "home/kitchen/thermometer"
     @Shared def gotan

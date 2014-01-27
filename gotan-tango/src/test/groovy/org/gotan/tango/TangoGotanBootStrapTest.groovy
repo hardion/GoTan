@@ -31,7 +31,7 @@ class TangoGotanBootStrapTest extends Specification {
     
     def setupSpec() {
         gotan = new Gotan()
-        //System.setProperty("TANGO_HOST",TANGO_HOST)
+        System.setProperty("TANGO_HOST","10.0.1.16:10000")
 	final String filePath = TangoGotanBootStrapTest.class.getResource("/org/gotan/tango/noDbproperties.txt").getPath();
 	
         /*NoDBDeviceManager.startDevice(TANGO_TEST)

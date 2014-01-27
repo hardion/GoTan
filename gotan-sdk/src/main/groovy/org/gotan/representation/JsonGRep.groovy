@@ -12,35 +12,34 @@ import groovy.json.JsonBuilder
 class JsonGRep {
     
    static def toJSON(def object){
+      new JsonBuilder(
+                    JsonGRep.toStruct(object)
+         ).toString()
+   }
+   
+   static def toStruct(def object){
       def result
       
       switch(object){
          
       case GAttribute :
-         result = new JsonBuilder(
-                    "value": object.value,
+         result = [ "value": object.value,
                     "unit": object.unit,
-                    "properties": object.gproperties,
-         ).toString()
-
+                    "properties": object.gproperties]
          break
+         
       case GCommand:
-         result = new JsonBuilder(
-                        "inputs": object.inputs,
-                        "outputs": object.outputs,
-         ).toString()
-
+         result = [ "inputs": object.inputs,
+                    "outputs": object.outputs]
          break
             
       case GObject:
-         result = new JsonBuilder(
-                        "class": object.gclass,
-                        "state": object.state,
-                        "status": object.status,
-                        "attributes": object.attributes/*.keySet()*/,
-                        "commands": object.commands.keySet(),
-                        "properties": object.gproperties.keySet(),
-         ).toString()
+         result = [ "class": object.gclass,
+                    "state": object.state,
+                    "status": object.status,
+                    "attributes": object.attributes.keySet(),
+                    "commands": object.commands.keySet(),
+                    "properties": object.gproperties.keySet()]
          break
       }
       return result

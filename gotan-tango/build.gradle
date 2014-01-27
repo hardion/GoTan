@@ -9,31 +9,40 @@
 // Note however, that you may define your own "run" and "debug" task if you
 // prefer. In this case NetBeans will not add these tasks but you may rely on
 // your own implementation.
-apply plugin: 'rpm'
-//apply plugin: 'ubuntu'
-apply plugin: 'fpm-packaging'
+buildscript {
+   repositories {
+      jcenter()
+   }
+   dependencies {
+      // The RPM plugin itself
+      classpath 'com.netflix.nebula:gradle-ospackage-plugin:1.10.0'
+   }
+}
+
+apply plugin: 'os-package'
 
 
 if (!hasProperty('mainClass')) {
-    ext.mainClass = 'org.gotan.tango.TangoGotanBootStrap'
+   ext.mainClass = 'org.gotan.tango.TangoGotanBootStrap'
 }
 mainClassName = ext.mainClass
 
 repositories {
-    maven { url "http://jcenter.bintray.com" } 
-    maven { url "http://dl.bintray.com/content/vhardion/gotan-mvn" } 
+   //mavenLocal()
+   maven { url "http://jcenter.bintray.com" } 
+   maven { url "http://dl.bintray.com/content/vhardion/gotan-mvn" } 
 }
 
 dependencies {
-    compile project(':gotan-sdk')
-    compile "org.tango:JTangoClientLang:1.0.1-WSP"
+   compile project(':gotan-sdk')
+   compile "org.tango:JTangoClientLang:1.0.9"
     
-    compile 'org.slf4j:slf4j-api:1.6.1'
-    compile 'ch.qos.logback:logback-classic:0.9.28'
+   compile 'org.slf4j:slf4j-api:1.6.1'
+   //compile 'ch.qos.logback:logback-classic:0.9.28'
     
-    compile "commons-cli:commons-cli:1.2"
+   compile "commons-cli:commons-cli:1.2"
     
-    testCompile "org.tango:JTangoServer:1.0.1-alpha-WSP" 
+   testCompile "org.tango:JTangoServer:1.1.1" 
 
 }
 
@@ -50,139 +59,71 @@ fi
 
 startScripts {
     
-    //http://issues.gradle.org/browse/GRADLE-2207
-    doLast {
-        unixScript.text = unixScript.text.replace(marker, marker+unixTangoHost)
-    }
+   //http://issues.gradle.org/browse/GRADLE-2207
+   doLast {
+      unixScript.text = unixScript.text.replace(marker, marker+unixTangoHost)
+   }
 }
 
 
 // Allow to define argument for the gotan server with tango capability
 run{
-    if(project.hasProperty("gotan")){
-        args gotan.split(" ")
-    }
+   if(project.hasProperty("gotan")){
+      args gotan.split(" ")
+   }
 }
 
 // Allow to run in debug mode
 task(runDebug, dependsOn: 'classes', type: JavaExec) {
-    main = mainClassName
-    classpath = sourceSets.main.runtimeClasspath
-    jvmArgs = ["-Xdebug", "-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"]
+   main = mainClassName
+   classpath = sourceSets.main.runtimeClasspath
+   jvmArgs = ["-Xdebug", "-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"]
 }
 
-// R P M  section
+// Packaging Section
+ospackage {
+   packageName = rootProject.name
+   version = project.version
+   release = 1
+   arch = NOARCH
+   os = LINUX
 
-// call by the plugins
-buildscript {
-    // Used by the RPM plugin
-    repositories {
-        mavenCentral()
-        mavenLocal()
-    }
-    // The RPM plugin itself
-    dependencies {
-        classpath 'com.trigonic:gradle-rpm-plugin:1.3'
-                // For the ubuntu packager plugin
-        classpath 'be.thinkerit.gradle:ubuntu-packager-plugin:dev-SNAPSHOT'
-        classpath 'com.kenshoo:gradle-fpm:0.3'
+   requires('java', '1.7', GREATER | EQUAL)
+   requires('tango-common', '8.0.5', GREATER | EQUAL)
 
-    }
-}
+   into '/opt/gotan'
 
-// Generate a RPM
-task RPM(type: Rpm) {
-    packageName = rootProject.name
-    version = project.version
-    release = 1
-    arch = NOARCH
-    os = LINUX
-
-    //installUtils = file('scripts/rpm/utils.sh')
-    //preInstall = file('scripts/rpm/preInstall.sh')
-    //postInstall = file('scripts/rpm/postInstall.sh')
-    //preUninstall = file('scripts/rpm/preUninstall.sh')
-    //postUninstall = file('scripts/rpm/postUninstall.sh')
-
-    requires('java', '1.7', GREATER | EQUAL)
-    requires('tango-common', '8.0.5', GREATER | EQUAL)
-
-    into '/opt/gotan'
-
-    from(jar.outputs.files) {
-        into 'lib'
-    }
+   from(jar.outputs.files) {
+      user 'root'
+      into 'lib'
+   }
     
-    from(configurations.runtime) {
-        into 'lib'
-    }
+   from(configurations.runtime) {
+      user 'root'
+      into 'lib'
+   }
         
-    from('src/main/scripts') {
-        into 'bin'
-        fileMode = 0550
-    }
-    
-    from('src/main/resources') {
-        fileType = CONFIG // | NOREPLACE
-        into 'conf'
-    }
-    
-    link ('/etc/init.d/gotan','/opt/gotan/bin/init.d')
-}
-
-def stagingDir = new File(project.buildDir, "staging")
-
-task preparePackaging(type: Copy) {
-   into(stagingDir)
-
-    from(jar.outputs.files) {
-        into 'lib'
-    }
-    
-    from(configurations.runtime) {
-        into 'lib'
-    }
-        
-    from('src/main/scripts') {
-      exclude '**/init.d'
-      rename 'init.d.debian', 'init.d'
+   from('src/main/scripts') {
+      user 'root'
       into 'bin'
-        fileMode = 0550
-    }
+      fileMode = 0550
+   }
     
-    from('src/main/resources') {
-        fileMode = 0550
-        into 'conf'
-    }
+   from('src/main/resources') {
+      user 'root'
+      fileType = CONFIG // | NOREPLACE
+      into 'conf'
+   }
     
-//    link ('/etc/init.d/gotan','/opt/gotan/bin/init.d')  
+
+
 }
 
-packaging{
-    dependencies = ['openjdk-6-jre', 'tango-common'] //Optional, an array of package dependencies
-    baseDir = stagingDir// Optional, base directory to package, default: project.buildDir
-    prefix = "/opt/gotan" // Optional, a path to prefix files when building package, default: root (/)
-    extraOptions = ['--vendor': 'me', '--maintainer': 'me', '-a':'all'] // Optional, a map containing extra options
-//    filesArgs = ['dir1', 'file1']//Optional, array of files/dirs to package, relative to baseDir, default: .
+buildRpm {
+   link ('/opt/gotan/bin/init.d', '/etc/init.d/gotan')
 }
 
-debian.dependsOn preparePackaging
-
-// To create a debian package
-//ubuntu {
-//    archive = new File("${project.buildDir}/distributions/gotan-tango-1.0.tar").toURI()
-//    releaseNotes = "Example for the ubuntu packager plugin"
-//    author = 'me'
-//    email = 'me@example.org'
-//    homepage = 'http://example.org'
-//    depends {
-//        // uncomment to add dependencies to be installed
-//        // on 'mysql-server'
-//        // on 'jetty'
-//    }
-//    dirs {
-//        // you can add as many dir statements as you need
-//        dir '/usr/share/helloworld/bin'
-//    }
-//
-//}
+buildDeb {
+//   requires('bat', '1.0.1')
+   link('/opt/gotan/bin/init.upstart', '/etc/init.d/gotan')
+}
